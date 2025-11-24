@@ -57,9 +57,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Appoint variable access.
         terminal_window = findViewById(R.id.terminal_textview);
+        location_input = findViewById(R.id.locationTest);
+        amount_input = findViewById(R.id.amountTest);
 
         // test
         loadMonthData();
+        updateTerminalDisplay();
 //        String formatTime = (new Timestamp()).toString();
 //        terminal_window.setText(formatTime);
 //        Log.d("testtime", formatTime);
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 // read
                 String contents = new String(Files.readAllBytes(data_file.toPath()));
 
-                terminal_window.setText("file exists -> " + contents);
+//                terminal_window.setText("file exists -> " + contents);
 
                 // have a list of monthdata obj --> [monthdata1, monthdata2]
                 month_list = gson.fromJson(contents, MONTH_LIST_ARRAY_TYPE); // typetoken forces monthdata recognition in runtime
@@ -142,20 +145,48 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void updateTerminalDisplay() {
+        String text = "";
+
+        for (Transaction transaction : current_month.getTransactionLog()) {
+
+            text += transaction.getSummary() + "\n\n";
+        }
+
+        terminal_window.setText(text);
+
+    }
+
+
 
     // -- ONCLICK METHODS
 
 
     // Associated with the 'submit' button.
     public void submitTransaction(View view) {
-//            updateFileContents();
-        // read entered parameters (check that none are empty)
-        loadMonthData();
+//      // read entered parameters
+
+//      (check that none are empty) <-- might make button just disabled until those are entered
+
+
+        // read vals
+        double amount = Double.parseDouble(amount_input.getText().toString());
+        String location = location_input.getText().toString();
+
+
         // add new transaction object to monthly data
+        current_month.appendTransaction(new Transaction(location, amount, new Timestamp()));
 
         // write to file
+        updateFileContents();
 
         // clear input fields, update gui
+        amount_input.getText().clear();
+        location_input.getText().clear();
+
+        updateTerminalDisplay();
+        Log.d("test", "transaction append successful");
+
     }
 
     public void openMonthLog(View view) {

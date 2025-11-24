@@ -27,6 +27,9 @@ public class MonthData {
 
 //    public getTimeStamp
 
+    public void appendTransaction(Transaction transaction) {
+        transactionLog.add(transaction);
+    }
 
     public ArrayList<Transaction> getTransactionLog() {
         return transactionLog;

@@ -1,7 +1,12 @@
 package com.example.machak;
 
+import android.annotation.SuppressLint;
+
+import java.text.DecimalFormat;
+
 public class Transaction {
 
+    private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
 
     private String location;
@@ -34,7 +39,20 @@ public class Transaction {
         return amount;
     }
 
+    @SuppressLint("DefaultLocale")
+    public String getSummary() {
 
+            /*
+            "[2025-11-24 14:30] $12.50 @ New York"
+            "[NYC] [$12.50] [2025-11-24 14:30]"
+            "NYC / $12.50 / 14:30"
+            "NYC: $12.50 (2025-11-24 14:30)"
+             */
+
+
+//        return "hiya";
+        return String.format("$%s @ %s [%s]", decimalFormat.format(amount), location, timestamp.getFormattedDate());
+    }
 
     // -- FUNCTION METHODS
 

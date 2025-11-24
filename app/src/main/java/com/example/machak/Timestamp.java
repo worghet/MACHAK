@@ -1,5 +1,7 @@
 package com.example.machak;
 
+import android.annotation.SuppressLint;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -53,6 +55,14 @@ public class Timestamp {
 
         return String.format("%d %s %d @ %d:%s", day, MONTH_DICTIONARY.get(month), year, hour, formatted_minute);
     }
+
+    @SuppressLint("DefaultLocale")
+    public String getFormattedDate() {
+        // Format with leading zeros where needed
+        return String.format("%04d-%02d-%02d %02d:%02d",
+                year, month + 1, day, hour, minute);
+    }
+
 
     // returns 0-11, not 1-12
     public static int getCurrentMonth() {
