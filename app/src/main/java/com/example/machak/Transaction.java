@@ -1,13 +1,13 @@
 package com.example.machak;
 
 import android.annotation.SuppressLint;
-
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class Transaction {
 
-    // ----
+    // _____________________ CROSS_CLASS_VARS _____________________
+
 
     public static final HashMap<String, String> TAGS = new HashMap<>();
 
@@ -18,10 +18,12 @@ public class Transaction {
         TAGS.put("MISC", "Miscellaneous");
     }
 
-    // ----
+    // ________________________ CLASS_VARS ________________________
 
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
+
+    // ______________________ INSTANCE_VARS ______________________
 
 
     private String location;
@@ -30,8 +32,7 @@ public class Transaction {
     private String tag;
 
 
-
-    // -- CONSTRUCTOR
+    // _______________________ CONSTRUCTOR _______________________
 
 
 
@@ -43,9 +44,7 @@ public class Transaction {
     }
 
 
-
-    // -- GETTER METHODS
-
+    // _________________________ GETTERS _________________________
 
 
     public String getLocation() {
@@ -70,25 +69,7 @@ public class Transaction {
             "NYC: $12.50 (2025-11-24 14:30)"
              */
 
-
-//        return "hiya";
         return String.format("$%s @ %s [%s]", DECIMAL_FORMAT.format(amount), location, timestamp.getFormattedDate()) + tag;
     }
-
-    // -- FUNCTION METHODS
-
-
-    public static void appendTransactionToLog(String location_input, double amount_input, Timestamp timestamp_input, String tag_input) {
-
-        // read file, get list of transactions
-
-        Transaction new_transaction = new Transaction(location_input, amount_input, timestamp_input, tag_input);
-
-        // transaction list.append(transaction)
-
-        // update file, close reader/writer
-    }
-
-
 
 }

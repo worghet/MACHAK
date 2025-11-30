@@ -1,15 +1,15 @@
 package com.example.machak;
 
 import android.annotation.SuppressLint;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
 public class Timestamp {
 
-    // issue is calendar.get(Calendar.INDEX) <-- used methods are deprecated
-    private int minute, hour, day, month, year;
+
+    // _____________________ CROSS_CLASS_VARS _____________________
+
 
     public static final Map<Integer, String> MONTH_DICTIONARY = Map.ofEntries(
             Map.entry(0, "JANUARY"),
@@ -27,19 +27,52 @@ public class Timestamp {
     );
 
 
+    // ______________________ INSTANCE_VARS ______________________
+
+
+    // [NOTE] issue is calendar.get(Calendar.INDEX) <-- used methods are deprecated
+    private int minute, hour, day, month, year;
+
+
+    // _______________________ CONSTRUCTOR _______________________
+
+
     public Timestamp() {
 
         // Get device time.
         Date currentTime = Calendar.getInstance().getTime();
 
         // Set class variables.
+        // [LATER] Replace depreciated methods.
         minute = currentTime.getMinutes();
         hour = currentTime.getHours();
         day = currentTime.getDate();
         month = currentTime.getMonth();
-        year = 1900 + currentTime.getYear();
+        year = 1900 + currentTime.getYear(); // weird O.O
 
     }
+
+    // _________________________ GETTERS _________________________
+
+
+    @SuppressLint("DefaultLocale")
+    public String getFormattedDate() {
+        // Format with leading zeros where needed
+        return String.format("%04d-%02d-%02d %02d:%02d",
+                year, month + 1, day, hour, minute);
+    }
+
+
+    // [NOTE] Returns 0-11, not 1-12.
+    public static int getCurrentMonth() {
+        return Calendar.getInstance().getTime().getMonth();
+    }
+
+
+    public static int getCurrentYear() {
+        return (1900 + Calendar.getInstance().getTime().getYear());
+    }
+
 
     public String toString() {
 
@@ -54,23 +87,6 @@ public class Timestamp {
 
 
         return String.format("%d %s %d @ %d:%s", day, MONTH_DICTIONARY.get(month), year, hour, formatted_minute);
-    }
-
-    @SuppressLint("DefaultLocale")
-    public String getFormattedDate() {
-        // Format with leading zeros where needed
-        return String.format("%04d-%02d-%02d %02d:%02d",
-                year, month + 1, day, hour, minute);
-    }
-
-
-    // returns 0-11, not 1-12
-    public static int getCurrentMonth() {
-        return Calendar.getInstance().getTime().getMonth();
-    }
-
-    public static int getCurrentYear() {
-        return (1900 + Calendar.getInstance().getTime().getYear());
     }
 
 }
